@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <ListView
+        android:id="@+id/yummy_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:divider="@null"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/list_padding"
+        android:layout_marginRight="@dimen/list_padding"
+        android:background="?android:attr/listDivider"/>
+
+    <Button
+        android:id="@+id/yummy_add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_nobg"
+        android:onClick="addButtonClick"
+        android:text="@string/add"
+        android:textColor="@color/button_nobg_text"/>
+
+</LinearLayout>

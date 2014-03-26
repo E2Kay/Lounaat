@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="yummy">#CC0000</color>
+    <color name="main_background">#EEEEEE</color>
+    <color name="button_touch_background">#DADADA</color>
+    <color name="button_nobg_text">#222222</color>
+
+    <dimen name="list_padding">8dp</dimen>
+    <dimen name="row_margin">2dp</dimen>
+
+</resources>

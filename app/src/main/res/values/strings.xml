@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Lounaat</string>
+    <string name="app_desc">Näyttää Turun opiskelijaravintoloiden ruokalistat</string>
+    <string name="network_needed">Sovellus vaatii internet yhteyden</string>
+
+    <string-array name="days_of_week">
+        <item>Sunnuntai</item>
+        <item>Maanantai</item>
+        <item>Tiistai</item>
+        <item>Keskiviikko</item>
+        <item>Torstai</item>
+        <item>Perjantai</item>
+        <item>Lauantai</item>
+    </string-array>
+
+    <string name="preferences">Asetukset</string>
+    <string name="pref_yummy">Lempiruuat</string>
+    <string name="pref_yummy_summary">Näytetään korostettuna</string>
+    <string name="pref_favorites">Suosikkiravintolat</string>
+    <string name="pref_favorites_summary">Näytetään ensimmäisenä</string>
+    <string name="pref_priceType">Hintaryhmä</string>
+
+    <string-array name="pref_priceType_entries">
+        <item>Opiskelija</item>
+        <item>Henkilökunta</item>
+        <item>Muut</item>
+    </string-array>
+
+    <string name="pref_language">Ruokalistojen kieli</string>
+
+    <string-array name="pref_language_entries">
+        <item>&lt;Järjestelmän kieli&gt;</item>
+        <item>Suomi</item>
+        <item>Ruotsi</item>
+        <item>Englanti</item>
+    </string-array>
+
+    <string name="delete">Poista</string>
+    <string name="add">Lisää</string>
+    <string name="loading">Lataa&#8230;</string>
+    <string name="pref_about">Tietoja</string>
+    <string name="pref_about_summary">Versio ja lisenssitietoja</string>
+
+</resources>

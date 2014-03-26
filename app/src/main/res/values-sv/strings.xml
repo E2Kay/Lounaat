@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Luncher</string>
+    <string name="app_desc">Anvisar luncher i Åbo studierestauranger</string>
+    <string name="network_needed">Appen kräver internetanslutning</string>
+
+    <string-array name="days_of_week">
+        <item>Söndag</item>
+        <item>Måndag</item>
+        <item>Tisdag</item>
+        <item>Onsdag</item>
+        <item>Torsdag</item>
+        <item>Fredag</item>
+        <item>Lördag</item>
+    </string-array>
+
+    <string name="preferences">Inställningar</string>
+    <string name="pref_yummy">Favoritmat</string>
+    <string name="pref_yummy_summary">Kommer att betonat</string>
+    <string name="pref_favorites">Favoritrestauranger</string>
+    <string name="pref_favorites_summary">Visas först</string>
+    <string name="pref_priceType">Prisgrupp</string>
+
+    <string-array name="pref_priceType_entries">
+        <item>Studenten</item>
+        <item>Personal</item>
+        <item>Andra</item>
+    </string-array>
+
+    <string name="pref_language">Meny språk</string>
+
+    <string-array name="pref_language_entries">
+        <item>&lt;Systems språk&gt;</item>
+        <item>Finska</item>
+        <item>Svenska</item>
+        <item>Engelska</item>
+    </string-array>
+
+    <string name="delete">Ta bort</string>
+    <string name="add">Nytt</string>
+    <string name="loading">Laddar&#8230;</string>
+    <string name="pref_about">Om Luncher</string>
+    <string name="pref_about_summary">Version och licens information</string>
+
+</resources>

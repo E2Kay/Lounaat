@@ -1,0 +1,55 @@
+<manifest package="fi.atte.utu.lounas"
+          xmlns:android="http://schemas.android.com/apk/res/android"
+          android:installLocation="auto">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+    <application
+        android:name=".Lounas"
+        android:allowBackup="true"
+        android:allowClearUserData="true"
+        android:description="@string/app_desc"
+        android:icon="@drawable/ic_launcher"
+        android:killAfterRestore="true"
+        android:label="@string/app_name"
+        android:requiredForAllUsers="false"
+        android:supportsRtl="false"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/preferences"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity"/>
+        </activity>
+        <activity
+            android:name=".YummyEditActivity"
+            android:label="@string/pref_yummy"
+            android:parentActivityName=".SettingsActivity"
+            android:windowSoftInputMode="adjustPan">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".SettingsActivity"/>
+        </activity>
+        <activity
+            android:name=".AboutActivity"
+            android:label="@string/pref_about"
+            android:parentActivityName=".SettingsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".SettingsActivity"/>
+        </activity>
+    </application>
+
+</manifest>

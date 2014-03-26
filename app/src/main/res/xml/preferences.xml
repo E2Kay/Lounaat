@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference
+        android:defaultValue=""
+        android:icon="@drawable/heart"
+        android:key="pref_yummy"
+        android:summary="@string/pref_yummy_summary"
+        android:title="@string/pref_yummy">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="fi.atte.utu.lounas.YummyEditActivity"
+            android:targetPackage="fi.atte.utu.lounas"/>
+    </Preference>
+
+    <fi.atte.utu.lounas.MultiListPreference
+        android:dialogTitle="@string/pref_favorites"
+        android:entries="@array/restaurant_names"
+        android:entryValues="@array/restaurant_values"
+        android:icon="@drawable/star"
+        android:key="pref_favorites"
+        android:summary="@string/pref_favorites_summary"
+        android:title="@string/pref_favorites"/>
+
+    <ListPreference
+        android:defaultValue="0"
+        android:dialogTitle="@string/pref_priceType"
+        android:entries="@array/pref_priceType_entries"
+        android:entryValues="@array/pref_priceType_values"
+        android:icon="@drawable/group"
+        android:key="pref_priceType"
+        android:title="@string/pref_priceType"/>
+    <ListPreference
+        android:defaultValue="default"
+        android:dialogTitle="@string/pref_language"
+        android:entries="@array/pref_language_entries"
+        android:entryValues="@array/pref_language_values"
+        android:icon="@drawable/speech_bubble"
+        android:key="pref_language"
+        android:title="@string/pref_language"/>
+
+    <PreferenceCategory android:title="@string/pref_about">
+        <Preference
+            android:icon="@drawable/about"
+            android:summary="@string/pref_about_summary"
+            android:title="@string/pref_about">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetClass="fi.atte.utu.lounas.AboutActivity"
+                android:targetPackage="fi.atte.utu.lounas"/>
+        </Preference>
+    </PreferenceCategory>
+
+</PreferenceScreen>

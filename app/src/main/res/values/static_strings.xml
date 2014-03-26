@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="restaurant_names" translatable="false">
+        <item>Assarin Ullakko</item>
+        <item>Brygge</item>
+        <item>Delica</item>
+        <item>Deli Pharma</item>
+        <item>Dental</item>
+        <item>ICT-talo</item>
+        <item>Macciavelli</item>
+        <item>Myssy &amp; Silinteri</item>
+        <item>Mikro</item>
+        <item>Nutritio</item>
+        <item>Ruokakello</item>
+        <item>Tottisalmi</item>
+    </string-array>
+
+    <string-array name="restaurant_values" translatable="false">
+        <item>ASSARIN_ULLAKKO</item>
+        <item>BRYGGE</item>
+        <item>DELICA</item>
+        <item>DELI_PHARMA</item>
+        <item>DENTAL</item>
+        <item>ICT_TALO</item>
+        <item>MACCIAVELLI</item>
+        <item>MYSSY_SILINTERI</item>
+        <item>MIKRO</item>
+        <item>NUTRITIO</item>
+        <item>RUOKAKELLO</item>
+        <item>TOTTISALMI</item>
+    </string-array>
+
+    <string-array name="pref_priceType_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="pref_language_values" translatable="false">
+        <item>default</item>
+        <item>fi</item>
+        <item>sv</item>
+        <item>en</item>
+    </string-array>
+</resources>

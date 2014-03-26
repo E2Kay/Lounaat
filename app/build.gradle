@@ -1,0 +1,49 @@
+apply plugin: 'android'
+
+android {
+    compileSdkVersion 19
+    buildToolsVersion "19.0.3"
+
+    def versionPropsFile = file('version.properties')
+    if (versionPropsFile.canRead()) {
+        def Properties versionProps = new Properties()
+        versionProps.load(new FileInputStream(versionPropsFile))
+
+        def code = versionProps['VERSION_CODE'].toInteger() + 1
+        def name = versionProps['VERSION_NAME'].toString()
+
+        versionProps['VERSION_CODE'] = code.toString()
+        versionProps.store(versionPropsFile.newWriter(), null)
+
+        defaultConfig {
+            versionCode code
+            versionName name
+            minSdkVersion 10
+            targetSdkVersion 19
+        }
+    } else {
+        throw new GradleException("Could not read version.properties!")
+    }
+
+    buildTypes {
+        release {
+            runProguard false
+            debuggable false
+            jniDebugBuild false
+        }
+    }
+
+    def signingPropsFile = file('signing.properties')
+    if (signingPropsFile.canRead()) {
+        def Properties signingProps = new Properties()
+        signingProps.load(new FileInputStream(signingPropsFile))
+
+        def source = signingProps['SOURCE'].toString()
+        apply from: source
+    }
+}
+
+dependencies {
+    compile 'com.android.support:appcompat-v7:+'
+    compile files('libs/jsoup-1.7.3.jar')
+}

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Lunches</string>
+    <string name="app_desc">Shows the menus of student restaurants in Turku</string>
+    <string name="network_needed">App requires an internet connection</string>
+
+    <string-array name="days_of_week">
+        <item>Sunday</item>
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+    </string-array>
+
+    <string name="preferences">Settings</string>
+    <string name="pref_yummy">Favorite foods</string>
+    <string name="pref_yummy_summary">Are highlighted</string>
+    <string name="pref_favorites">Favorite restaurants</string>
+    <string name="pref_favorites_summary">Are shown first</string>
+    <string name="pref_priceType">Price group</string>
+
+    <string-array name="pref_priceType_entries">
+        <item>Student</item>
+        <item>Staff</item>
+        <item>Other</item>
+    </string-array>
+
+    <string name="pref_language">Menu language</string>
+
+    <string-array name="pref_language_entries">
+        <item>&lt;System language&gt;</item>
+        <item>Finnish</item>
+        <item>Swedish</item>
+        <item>English</item>
+    </string-array>
+
+    <string name="delete">Remove</string>
+    <string name="add">Add</string>
+    <string name="loading">Loading&#8230;</string>
+    <string name="pref_about">About</string>
+    <string name="pref_about_summary">Version and license information</string>
+
+</resources>
