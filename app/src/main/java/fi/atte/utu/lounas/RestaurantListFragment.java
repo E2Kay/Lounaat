@@ -71,7 +71,7 @@ public class RestaurantListFragment extends ListFragment {
 				@Override
 				public void updated(final boolean ok) {
 					if (!ok)
-						Log.e(TAG, "Error updating " + adapter.getDisplayName(restaurant));
+						Log.e(TAG, "Error updating " + RestaurantArrayAdapter.getDisplayName(getActivity(), restaurant));
 
 					adapter.notifyDataSetChanged();
 				}
@@ -96,7 +96,7 @@ public class RestaurantListFragment extends ListFragment {
 				if (b.isFavorite() && !a.isFavorite())
 					return 1;
 
-				return adapter.getDisplayName(a).compareToIgnoreCase(adapter.getDisplayName(b));
+				return RestaurantArrayAdapter.getDisplayName(getActivity(), a).compareToIgnoreCase(RestaurantArrayAdapter.getDisplayName(getActivity(), b));
 			}
 		});
 

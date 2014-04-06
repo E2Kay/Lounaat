@@ -28,8 +28,10 @@ class Course {
 		}
 
 		// Pad prices from the left in case not all were listed
-		while (this.prices.size() < 3)
-			this.prices.add(0, prices.get(0));
+		if (this.prices.size() > 0) {
+			while (this.prices.size() < 3)
+				this.prices.add(0, prices.get(0));
+		}
 	}
 
 	public Course(final String name, final String[] prices, final String flags) {
@@ -40,7 +42,7 @@ class Course {
 		return name;
 	}
 
-	public String getPrice(final int i) {
+	public String getPrice(final int i) throws IndexOutOfBoundsException {
 		return prices.get(i);
 	}
 

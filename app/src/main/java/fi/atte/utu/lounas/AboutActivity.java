@@ -22,7 +22,7 @@ public class AboutActivity extends ActionBarActivity {
 
 		try {
 			final PackageManager packageManager = getPackageManager();
-			if ( packageManager == null ){
+			if (packageManager == null) {
 				Log.e(TAG, "Unable to get package manager");
 				return;
 			}

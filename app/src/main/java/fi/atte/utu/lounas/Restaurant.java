@@ -8,6 +8,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Represents a single restaurant and its menu for a single day.
@@ -19,6 +20,7 @@ public class Restaurant {
 	private List<Course> courses = new ArrayList<Course>();
 	private boolean favorite = false;
 	private boolean loaded = false;
+
 	public Restaurant(final Name name) {
 		this.name = name;
 	}
@@ -56,6 +58,13 @@ public class Restaurant {
 		return this.courses;
 	}
 
+	/**
+	 * Updates the course list
+	 *
+	 * @param context   Context to use
+	 * @param dayOfWeek Day of week to load data for (monday=0)
+	 * @param callback  Callback for when done, or null to do processing synchronously
+	 */
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public void update(final Context context, final int dayOfWeek, final UpdateCallback callback) {
 		if (dayOfWeek < 0) {
@@ -66,15 +75,18 @@ public class Restaurant {
 		final RestaurantLoaderTask task = new RestaurantLoaderTask(context, this, dayOfWeek, new RestaurantLoaderTask.Callback() {
 			@Override
 			public void done(final RestaurantLoaderTask.Result result) {
-				if ( result == null ){
-					callback.updated(false);
+				if (result == null) {
+					if (callback != null)
+						callback.updated(false);
 					return;
 				}
 
 				times = result.times;
 				courses = result.courses;
 				loaded = true;
-				callback.updated(true);
+
+				if (callback != null)
+					callback.updated(true);
 			}
 		});
 
@@ -82,6 +94,16 @@ public class Restaurant {
 			task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 		else
 			task.execute();
+
+		if (callback == null) {
+			try {
+				task.get();
+			} catch (final InterruptedException e) {
+				e.printStackTrace();
+			} catch (final ExecutionException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public enum Name {
@@ -105,7 +127,7 @@ public class Restaurant {
 		UNICA, SODEXO
 	}
 
-	public interface UpdateCallback {
+	public static interface UpdateCallback {
 		void updated(boolean ok);
 	}
 }

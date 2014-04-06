@@ -35,7 +35,7 @@ public class EditableStringArrayAdapter extends ArrayAdapter<String> {
 		if (convertView == null) {
 			final LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			convertView = inflater.inflate(resource, parent, false);
-			if ( convertView == null ){
+			if (convertView == null) {
 				Log.e(TAG, "Unable to inflate editable string array view");
 				return null;
 			}

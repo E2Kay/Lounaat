@@ -30,6 +30,23 @@ class RestaurantArrayAdapter extends ArrayAdapter<Restaurant> {
 		this.dayOfWeek = dayOfWeek;
 	}
 
+	private static String getDisplayNameByName(final Context context, final Restaurant.Name name) {
+		final List<String> values = Arrays.asList(context.getResources().getStringArray(R.array.restaurant_values));
+		final String[] names = context.getResources().getStringArray(R.array.restaurant_names);
+
+		final int pos = values.indexOf(name.name());
+		if (pos < 0 || pos >= names.length) {
+			Log.e(TAG, "Name not found: " + name.name());
+			return "Name not found!";
+		}
+
+		return names[pos];
+	}
+
+	public static String getDisplayName(final Context context, final Restaurant restaurant) {
+		return getDisplayNameByName(context, restaurant.getName());
+	}
+
 	@Override
 	public final View getView(final int position, View convertView, final ViewGroup parent) {
 		final Restaurant restaurant = getItem(position);
@@ -47,7 +64,7 @@ class RestaurantArrayAdapter extends ArrayAdapter<Restaurant> {
 
 		if (holder == null) {
 			convertView = inflater.inflate(resource, parent, false);
-			if ( convertView == null ){
+			if (convertView == null) {
 				Log.e(TAG, "Unable to inflate restaurant array row layout");
 				return null;
 			}
@@ -64,7 +81,7 @@ class RestaurantArrayAdapter extends ArrayAdapter<Restaurant> {
 		}
 
 		// Clear out old data
-		holder.title.setText(getDisplayName(restaurant));
+		holder.title.setText(getDisplayName(getContext(), restaurant));
 		holder.time.setVisibility(View.INVISIBLE);
 		holder.courses.removeAllViews();
 
@@ -101,7 +118,7 @@ class RestaurantArrayAdapter extends ArrayAdapter<Restaurant> {
 		// Draw course list
 		for (final Course course : restaurant.getCourses()) {
 			final View courseRow = inflater.inflate(R.layout.course_row, holder.courses, false);
-			if ( courseRow == null ){
+			if (courseRow == null) {
 				Log.e(TAG, "Unable to inflate course row layout");
 				break;
 			}
@@ -119,7 +136,12 @@ class RestaurantArrayAdapter extends ArrayAdapter<Restaurant> {
 			}
 
 			final TextView coursePrice = (TextView) courseRow.findViewById(R.id.course_row_price);
-			coursePrice.setText(course.getPrice(priceType));
+			try {
+				coursePrice.setText(course.getPrice(priceType));
+			} catch (final IndexOutOfBoundsException e) {
+				Log.e(TAG, "No price for course");
+				e.printStackTrace();
+			}
 
 			holder.courses.addView(courseRow);
 		}
@@ -140,23 +162,6 @@ class RestaurantArrayAdapter extends ArrayAdapter<Restaurant> {
 	@Override
 	public long getItemId(final int position) {
 		return getItem(position).getName().ordinal();
-	}
-
-	String getDisplayNameByName(final Restaurant.Name name) {
-		final List<String> values = Arrays.asList(getContext().getResources().getStringArray(R.array.restaurant_values));
-		final String[] names = getContext().getResources().getStringArray(R.array.restaurant_names);
-
-		final int pos = values.indexOf(name.name());
-		if (pos < 0 || pos >= names.length) {
-			Log.e(TAG, "Name not found: " + name.name());
-			return "Name not found!";
-		}
-
-		return names[pos];
-	}
-
-	public String getDisplayName(final Restaurant restaurant) {
-		return getDisplayNameByName(restaurant.getName());
 	}
 
 	private static class ViewHolder {

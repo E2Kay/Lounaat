@@ -58,8 +58,11 @@ public class RestaurantLoaderTask extends AsyncTask<Void, Void, RestaurantLoader
 	private static final Pattern unicaPricePattern = Pattern.compile("\\d+(?:,\\d+)?");
 
 	private static final Lock cacheLock = new ReentrantLock();
+
 	private static final Map<String, Integer> dayNames = new HashMap<String, Integer>();
 	private static final Pattern timePattern = Pattern.compile("(\\d{1,2})(?:[.:](\\d{2}))?\\s*-\\s*(\\d{1,2})(?:[.:](\\d{2}))?");
+	private static final Map<String, Document> jsoupCache = new HashMap<String, Document>();
+	private static final Map<String, JSONObject> jsonCache = new HashMap<String, JSONObject>();
 	private final Context context;
 	private final Restaurant restaurant;
 	private final int dayOfWeek;
@@ -257,12 +260,41 @@ public class RestaurantLoaderTask extends AsyncTask<Void, Void, RestaurantLoader
 			urlString += "/" + lang;
 		}
 
-		final String source = getSource(urlString);
+		if (restaurant.getSource() == Restaurant.Source.UNICA) {
+			Document doc = null;
+			synchronized (jsoupCache) {
+				if (jsoupCache.containsKey(urlString))
+					doc = jsoupCache.get(urlString);
+			}
 
-		if (restaurant.getSource() == Restaurant.Source.UNICA)
-			return parseUnica(source);
-		else
-			return parseSodexo(source, lang);
+			if (doc == null) {
+				doc = Jsoup.parse(getSource(urlString));
+				synchronized (jsoupCache) {
+					jsoupCache.put(urlString, doc);
+				}
+			}
+
+			return parseUnica(doc);
+		} else {
+			JSONObject json = null;
+			synchronized (jsonCache) {
+				if (jsonCache.containsKey(urlString))
+					json = jsonCache.get(urlString);
+			}
+
+			if (json == null) {
+				try {
+					json = new JSONObject(repetitiveHtmlDecode(getSource(urlString)));
+					synchronized (jsonCache) {
+						jsonCache.put(urlString, json);
+					}
+				} catch (final JSONException e) {
+					e.printStackTrace();
+				}
+			}
+
+			return parseSodexo(json, lang);
+		}
 	}
 
 	private int parseDayName(final String name) {
@@ -295,7 +327,7 @@ public class RestaurantLoaderTask extends AsyncTask<Void, Void, RestaurantLoader
 		// Fix time formatting if possible
 		final StringBuilder builder = new StringBuilder();
 		final Matcher matcher = timePattern.matcher(timeString);
-		if (matcher.matches()) {
+		if (matcher.find()) {
 			builder.append(matcher.group(1));
 			builder.append(':');
 			if (matcher.group(2) == null)
@@ -319,12 +351,14 @@ public class RestaurantLoaderTask extends AsyncTask<Void, Void, RestaurantLoader
 			out[i] = fixedTime;
 	}
 
-	private Result parseSodexo(final String source, final String lang) {
+	private Result parseSodexo(final JSONObject json, final String lang) {
 		final Result result = new Result();
 
 		try {
-			final JSONObject json = new JSONObject(repetitiveHtmlDecode(source));
 			final JSONArray jsonCourses = json.getJSONArray("courses");
+			if (jsonCourses.length() < 1)
+				return result;
+
 			for (int i = 0; i < jsonCourses.length(); ++i) {
 				final JSONObject obj = jsonCourses.getJSONObject(i);
 				result.courses.add(new Course(obj.getString("title_" + lang), obj.getString("price").split("\\s+/\\s+"), obj.optString("properties")));
@@ -346,7 +380,6 @@ public class RestaurantLoaderTask extends AsyncTask<Void, Void, RestaurantLoader
 					e.printStackTrace();
 				}
 			}
-
 		} catch (final JSONException e) {
 			e.printStackTrace();
 		}
@@ -354,10 +387,8 @@ public class RestaurantLoaderTask extends AsyncTask<Void, Void, RestaurantLoader
 		return result;
 	}
 
-	private Result parseUnica(final String source) {
+	private Result parseUnica(final Document doc) {
 		final Result result = new Result();
-
-		final Document doc = Jsoup.parse(source);
 
 		final Elements dayDivs = doc.select(".menu-list > .accord");
 		for (final Element dayDiv : dayDivs) {
@@ -420,11 +451,11 @@ public class RestaurantLoaderTask extends AsyncTask<Void, Void, RestaurantLoader
 			callback.done(result);
 	}
 
-	public interface Callback {
+	public static interface Callback {
 		void done(Result result);
 	}
 
-	public class Result {
+	public static class Result {
 		public final String[] times = new String[6];
 		public final List<Course> courses = new ArrayList<Course>();
 	}
