@@ -15,7 +15,7 @@ import java.util.List;
  * Activity for editing favorite foods using a nice UI
  */
 public class YummyEditActivity extends ActionBarActivity {
-	final private List<String> yummies = new ArrayList<String>();
+	final private List<String> yummies = new ArrayList<>();
 	private EditableStringArrayAdapter adapter;
 
 	@Override
@@ -61,6 +61,9 @@ public class YummyEditActivity extends ActionBarActivity {
 	private void saveList() {
 		final StringBuilder builder = new StringBuilder();
 		for (final String yum : yummies) {
+			if (yum.length() == 0)
+				continue;
+
 			if (builder.length() > 0)
 				builder.append('\n');
 			builder.append(yum);

@@ -40,7 +40,7 @@
     <string name="delete">Ta bort</string>
     <string name="add">Nytt</string>
     <string name="loading">Laddar&#8230;</string>
-    <string name="pref_about">Om Luncher</string>
+    <string name="pref_about">Om</string>
     <string name="pref_about_summary">Version och licens information</string>
 
 </resources>

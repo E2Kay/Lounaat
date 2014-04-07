@@ -26,7 +26,7 @@ public class MultiListPreference extends ListPreference {
 			Log.e(TAG, "No entries defined for MultiListPreference");
 			checked = null;
 		} else if (getEntryValues() == null) {
-			Log.e(TAG, "No entry values defined for Mult <year> <copyright holders>iListPreference");
+			Log.e(TAG, "No entry values defined for MultiListPreference");
 			checked = null;
 		} else
 			checked = new boolean[getEntries().length];

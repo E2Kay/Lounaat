@@ -1,6 +1,8 @@
 package fi.atte.utu.lounas;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,8 +19,8 @@ import java.util.List;
 public class EditableStringArrayAdapter extends ArrayAdapter<String> {
 	@SuppressWarnings("unused")
 	private static final String TAG = "Lounas/EditableStringArrayAdapter";
-	private final List<String> strings;
 	private final int resource;
+	private final List<String> strings;
 
 	@SuppressWarnings("SameParameterValue")
 	public EditableStringArrayAdapter(final Context context, final int resource, final List<String> objects) {
@@ -41,20 +43,36 @@ public class EditableStringArrayAdapter extends ArrayAdapter<String> {
 			}
 
 			holder = new ViewHolder();
+			holder.position = position;
 			holder.editor = (EditText) convertView.findViewById(R.id.editable_string_row_editor);
 			holder.delete = (ImageButton) convertView.findViewById(R.id.editable_string_row_delete);
 			convertView.setTag(holder);
+
+			holder.editor.addTextChangedListener(new TextWatcher() {
+				@Override
+				public void beforeTextChanged(final CharSequence charSequence, final int i, final int i2, final int i3) {
+				}
+
+				@Override
+				public void onTextChanged(final CharSequence charSequence, final int i, final int i2, final int i3) {
+				}
+
+				@Override
+				public void afterTextChanged(final Editable editable) {
+					strings.set(holder.position, editable.toString());
+				}
+			});
+
+			holder.delete.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(final View v) {
+					remove(getItem(holder.position));
+				}
+			});
 		} else
 			holder = (ViewHolder) convertView.getTag();
 
-		// Update info
 		holder.editor.setText(text);
-		holder.delete.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(final View v) {
-				remove(strings.get(position));
-			}
-		});
 
 		return convertView;
 	}
@@ -65,6 +83,7 @@ public class EditableStringArrayAdapter extends ArrayAdapter<String> {
 	}
 
 	private class ViewHolder {
+		public int position;
 		public EditText editor;
 		public ImageButton delete;
 	}
