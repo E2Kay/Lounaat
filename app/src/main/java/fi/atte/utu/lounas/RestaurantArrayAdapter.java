@@ -13,13 +13,19 @@ import android.widget.TextView;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 /**
  * Array adapter for showing Restaurant instances in a ListView.
  */
 class RestaurantArrayAdapter extends ArrayAdapter<Restaurant> {
 	private static final String TAG = "Lounas/RestaurantArrayAdapter";
+	private static final Lock yummyLock = new ReentrantLock();
+	private static String yummyCacheKey = null;
+	private static Pattern[] yummyCache = null;
 	private final int resource;
 	private final int dayOfWeek;
 
@@ -45,6 +51,51 @@ class RestaurantArrayAdapter extends ArrayAdapter<Restaurant> {
 
 	public static String getDisplayName(final Context context, final Restaurant restaurant) {
 		return getDisplayNameByName(context, restaurant.getName());
+	}
+
+	private static Pattern[] getYummyPatterns(final SharedPreferences sharedPref) {
+		final String yummyString = sharedPref.getString(SettingsActivity.YUMMY, null);
+
+		synchronized (yummyLock) {
+			if (yummyCacheKey != null && yummyCacheKey.equals(yummyString))
+				return yummyCache;
+
+			if (!yummyLock.tryLock()) {
+				try {
+					yummyLock.wait();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				return yummyCache;
+			}
+		}
+
+		try {
+			final String[] yummies;
+			if (yummyString == null || yummyString.length() == 0)
+				yummies = new String[0];
+			else
+				yummies = yummyString.split("\n");
+
+			final Pattern[] patterns = new Pattern[yummies.length];
+			for (int i = 0; i < yummies.length; ++i) {
+				try {
+					patterns[i] = Pattern.compile(yummies[i], Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+				} catch (final PatternSyntaxException e) {
+					patterns[i] = Pattern.compile(Pattern.quote(yummies[i]), Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+				}
+			}
+
+			yummyCacheKey = yummyString;
+			yummyCache = patterns;
+
+			return yummyCache;
+		} finally {
+			synchronized (yummyLock) {
+				yummyLock.unlock();
+				yummyLock.notifyAll();
+			}
+		}
 	}
 
 	@Override
@@ -102,18 +153,7 @@ class RestaurantArrayAdapter extends ArrayAdapter<Restaurant> {
 		final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
 		final int priceType = Integer.valueOf(sharedPref.getString(SettingsActivity.PRICE_TYPE, "0"));
 		final int highlightColor = getContext().getResources().getColor(R.color.yummy);
-
-		// Load favorite foods
-		final String[] yummies;
-		final String yummyString = sharedPref.getString(SettingsActivity.YUMMY, null);
-		if (yummyString == null || yummyString.length() == 0)
-			yummies = new String[0];
-		else
-			yummies = yummyString.split("\n");
-
-		// Lowercase all favorite foods
-		for (int i = 0; i < yummies.length; ++i)
-			yummies[i] = yummies[i].toLowerCase(Locale.US);
+		final Pattern[] yummies = getYummyPatterns(sharedPref);
 
 		// Draw course list
 		for (final Course course : restaurant.getCourses()) {
@@ -127,9 +167,8 @@ class RestaurantArrayAdapter extends ArrayAdapter<Restaurant> {
 			courseTitle.setText(course.getName());
 
 			// Highlight favorite foods
-			final String lowerName = course.getName().toLowerCase(Locale.US);
-			for (final String needle : yummies) {
-				if (needle.length() > 0 && lowerName.contains(needle)) {
+			for (final Pattern pattern : yummies) {
+				if (pattern.matcher(course.getName()).find()) {
 					courseTitle.setTextColor(highlightColor);
 					break;
 				}

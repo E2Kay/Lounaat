@@ -43,7 +43,6 @@ public class EditableStringArrayAdapter extends ArrayAdapter<String> {
 			}
 
 			holder = new ViewHolder();
-			holder.position = position;
 			holder.editor = (EditText) convertView.findViewById(R.id.editable_string_row_editor);
 			holder.delete = (ImageButton) convertView.findViewById(R.id.editable_string_row_delete);
 			convertView.setTag(holder);
@@ -59,19 +58,28 @@ public class EditableStringArrayAdapter extends ArrayAdapter<String> {
 
 				@Override
 				public void afterTextChanged(final Editable editable) {
-					strings.set(holder.position, editable.toString());
+					if ( !holder.removed )
+						strings.set(holder.position, editable.toString());
 				}
 			});
 
 			holder.delete.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(final View v) {
-					remove(getItem(holder.position));
+					try {
+						holder.removed = true;
+						strings.remove(holder.position);
+					} catch (final IndexOutOfBoundsException e) {
+						e.printStackTrace();
+					}
+					notifyDataSetChanged();
 				}
 			});
 		} else
 			holder = (ViewHolder) convertView.getTag();
 
+		holder.removed = false;
+		holder.position = position;
 		holder.editor.setText(text);
 
 		return convertView;
@@ -83,6 +91,7 @@ public class EditableStringArrayAdapter extends ArrayAdapter<String> {
 	}
 
 	private class ViewHolder {
+		public boolean removed;
 		public int position;
 		public EditText editor;
 		public ImageButton delete;
