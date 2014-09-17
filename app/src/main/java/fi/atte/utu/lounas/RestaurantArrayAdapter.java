@@ -82,7 +82,7 @@ class RestaurantArrayAdapter extends ArrayAdapter<Restaurant> {
 				try {
 					patterns[i] = Pattern.compile(yummies[i], Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 				} catch (final PatternSyntaxException e) {
-					patterns[i] = Pattern.compile(Pattern.quote(yummies[i]), Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+					patterns[i] = Pattern.compile(yummies[i], Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE | Pattern.LITERAL);
 				}
 			}
 
