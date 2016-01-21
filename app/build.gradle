@@ -24,18 +24,10 @@ android {
             versionCode code
             versionName name
             minSdkVersion 10
-            targetSdkVersion 19
+            targetSdkVersion 21
         }
     } else {
         throw new GradleException("Could not read version.properties!")
-    }
-
-    buildTypes {
-        release {
-            runProguard false
-            debuggable false
-            jniDebugBuild false
-        }
     }
 
     def signingPropsFile = file('signing.properties')
@@ -50,5 +42,7 @@ android {
 
 dependencies {
     compile 'com.android.support:appcompat-v7:+'
+    compile 'com.android.support:cardview-v7:+'
+    compile 'com.android.support:recyclerview-v7:+'
     compile files('libs/jsoup-1.7.3.jar')
 }

@@ -55,15 +55,6 @@ public class MainActivity extends ActionBarActivity {
 			}
 		});
 
-		final Calendar calendar = Calendar.getInstance();
-		final int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 2;
-
-		// Show current day (Saturday on Sunday to avoid confusion)
-		if (dayOfWeek >= 0)
-			viewPager.setCurrentItem(dayOfWeek);
-		else
-			viewPager.setCurrentItem(5);
-
 		// On tablets, set up tabs on left side
 		if (tabList != null) {
 			final ArrayAdapter<String> tabAdapter = new ArrayAdapter<String>(this, R.layout.main_tab, Arrays.copyOfRange(weekDayNames, 1, weekDayNames.length));
@@ -81,6 +72,15 @@ public class MainActivity extends ActionBarActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+
+        // Show current day (Saturday on Sunday to avoid confusion)
+        final Calendar calendar = Calendar.getInstance();
+        final int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 2;
+
+        if (dayOfWeek >= 0)
+            viewPager.setCurrentItem(dayOfWeek);
+        else
+            viewPager.setCurrentItem(5);
 
 		// Make sure an internet connection exists
 		final ConnectivityManager conMan = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
