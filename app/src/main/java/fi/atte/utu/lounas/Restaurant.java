@@ -113,6 +113,7 @@ public class Restaurant {
 		DELICA,
 		DELI_PHARMA,
 		DENTAL,
+		GALILEI,
 		ICT_TALO,
 		MACCIAVELLI,
 		MYSSY_SILINTERI,
