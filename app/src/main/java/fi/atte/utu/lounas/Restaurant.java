@@ -113,14 +113,14 @@ public class Restaurant {
 		DELICA,
 		DELI_PHARMA,
 		DENTAL,
+		GALILEI,
 		ICT_TALO,
 		MACCIAVELLI,
 		MYSSY_SILINTERI,
 		MIKRO,
 		NUTRITIO,
 		RUOKAKELLO,
-		TOTTISALMI,
-		GALILEI
+		TOTTISALMI
 		// @formatter:on
 	}
 

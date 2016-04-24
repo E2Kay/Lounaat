@@ -6,6 +6,7 @@
         <item>Delica</item>
         <item>Deli Pharma</item>
         <item>Dental</item>
+        <item>Galilei</item>
         <item>ICT-talo</item>
         <item>Macciavelli</item>
         <item>Myssy &amp; Silinteri</item>
@@ -13,7 +14,6 @@
         <item>Nutritio</item>
         <item>Ruokakello</item>
         <item>Tottisalmi</item>
-        <item>Galilei</item>
     </string-array>
 
     <string-array name="restaurant_values" translatable="false">
@@ -22,6 +22,7 @@
         <item>DELICA</item>
         <item>DELI_PHARMA</item>
         <item>DENTAL</item>
+        <item>GALILEI</item>
         <item>ICT_TALO</item>
         <item>MACCIAVELLI</item>
         <item>MYSSY_SILINTERI</item>
@@ -29,7 +30,6 @@
         <item>NUTRITIO</item>
         <item>RUOKAKELLO</item>
         <item>TOTTISALMI</item>
-        <item>GALILEI</item>
     </string-array>
 
     <string-array name="pref_priceType_values" translatable="false">
