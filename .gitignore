@@ -2,6 +2,8 @@
 *.iws
 .idea/workspace.xml
 .idea/tasks.xml
+.idea/libraries/
+.idea/runConfigurations.xml
 dataSources.ids
 datasources.xml
 
@@ -53,3 +55,5 @@ proguard/
 build/
 
 
+# vim
+*~

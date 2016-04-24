@@ -13,6 +13,7 @@
         <item>Nutritio</item>
         <item>Ruokakello</item>
         <item>Tottisalmi</item>
+        <item>Galilei</item>
     </string-array>
 
     <string-array name="restaurant_values" translatable="false">
@@ -28,6 +29,7 @@
         <item>NUTRITIO</item>
         <item>RUOKAKELLO</item>
         <item>TOTTISALMI</item>
+        <item>GALILEI</item>
     </string-array>
 
     <string-array name="pref_priceType_values" translatable="false">

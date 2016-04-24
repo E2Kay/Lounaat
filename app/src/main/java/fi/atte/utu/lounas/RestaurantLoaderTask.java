@@ -232,6 +232,9 @@ public class RestaurantLoaderTask extends AsyncTask<Void, Void, RestaurantLoader
 				e.printStackTrace();
 			} catch (final URISyntaxException e) {
 				e.printStackTrace();
+			} catch (final Exception e) {
+				e.printStackTrace();
+				return "";
 			}
 		}
 

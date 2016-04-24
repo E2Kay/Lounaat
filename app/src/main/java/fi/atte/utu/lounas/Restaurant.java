@@ -119,7 +119,8 @@ public class Restaurant {
 		MIKRO,
 		NUTRITIO,
 		RUOKAKELLO,
-		TOTTISALMI
+		TOTTISALMI,
+		GALILEI
 		// @formatter:on
 	}
 
