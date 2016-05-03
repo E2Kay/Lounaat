@@ -6,6 +6,7 @@ import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.text.Html;
+import android.text.TextUtils;
 import android.util.Log;
 
 import org.apache.http.HttpResponse;
@@ -254,6 +255,17 @@ public class RestaurantLoaderTask extends AsyncTask<Void, Void, RestaurantLoader
 			else
 				urlString += "en/restaurants/";
 			urlString += restaurant.getName().name().toLowerCase(Locale.US).replace('_', '-');
+		} else if (restaurant.getSource() == Restaurant.Source.AMICA) {
+			final Calendar calendar = Calendar.getInstance();
+			calendar.set(Calendar.DAY_OF_WEEK, dayOfWeek);
+			urlString = "http://www.amica.fi/modules/json/json/Index?costNumber=0533&language=";
+			// Monttu doesn't offer menu in Swedish at the time of writing
+			if ("fi".equals(lang) || "se".equals(lang))
+				urlString += "fi";
+			else
+				urlString += "en";
+			urlString += "&firstDay=";
+			urlString += new SimpleDateFormat("yyyy-M-d", Locale.US).format(calendar.getTime());
 		} else {
 			final Calendar calendar = Calendar.getInstance();
 			calendar.set(Calendar.DAY_OF_WEEK, dayOfWeek);
@@ -296,7 +308,10 @@ public class RestaurantLoaderTask extends AsyncTask<Void, Void, RestaurantLoader
 				}
 			}
 
-			return parseSodexo(json, lang);
+			if (restaurant.getSource() == Restaurant.Source.SODEXO)
+				return parseSodexo(json, lang);
+			else
+				return parseAmica(json, lang);
 		}
 	}
 
@@ -383,6 +398,37 @@ public class RestaurantLoaderTask extends AsyncTask<Void, Void, RestaurantLoader
 					e.printStackTrace();
 				}
 			}
+		} catch (final JSONException e) {
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+
+	private Result parseAmica(final JSONObject json, final String lang) {
+		final Result result = new Result();
+
+		try {
+			final JSONArray jsonMenusForDays = json.getJSONArray("MenusForDays");
+			final JSONArray jsonCourses  = jsonMenusForDays.getJSONObject(0).getJSONArray("SetMenus");
+			if (jsonCourses.length() < 1)
+				return result;
+
+			for (int i = 0; i < jsonCourses.length(); i++) {
+				final JSONObject obj = jsonCourses.getJSONObject(i);
+				String name = obj.getString("Name");
+				name = (name != "null") ? name + ": " : "";
+				List<String> components = new ArrayList<String>();
+				JSONArray jsonComponents = obj.getJSONArray("Components");
+				for (int j = 0; j < jsonComponents.length(); j++) {
+					components.add(jsonComponents.getString(j));
+				}
+				name += TextUtils.join(", ", components);
+
+				result.courses.add(new Course(name, new String[0], ""));
+			}
+
+
 		} catch (final JSONException e) {
 			e.printStackTrace();
 		}

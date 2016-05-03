@@ -28,6 +28,8 @@ public class Restaurant {
 	public Source getSource() {
 		if (this.name == Name.ICT_TALO)
 			return Source.SODEXO;
+		else if (this.name == Name.MONTTU)
+			return Source.AMICA;
 		else
 			return Source.UNICA;
 	}
@@ -116,6 +118,7 @@ public class Restaurant {
 		GALILEI,
 		ICT_TALO,
 		MACCIAVELLI,
+		MONTTU,
 		MYSSY_SILINTERI,
 		MIKRO,
 		NUTRITIO,
@@ -125,7 +128,7 @@ public class Restaurant {
 	}
 
 	public enum Source {
-		UNICA, SODEXO
+		UNICA, SODEXO, AMICA
 	}
 
 	public static interface UpdateCallback {
